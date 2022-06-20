@@ -1,8 +1,5 @@
 from flask import Flask, request, jsonify
 from helpers import isInt
-import sqlite3
-
-con.sql
 
 app = Flask(__name__)
 app.run(debug = True)
