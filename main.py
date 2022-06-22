@@ -1,6 +1,6 @@
 from asyncio.windows_events import NULL
 from flask import Flask, request, jsonify, g
-from helpers import isInt
+from helpers import isInt, convertResponseToJson
 import sqlite3
 
 app = Flask(__name__)
@@ -28,6 +28,7 @@ with app.app_context():
               "description"	TEXT NOT NULL,
               PRIMARY KEY("id" AUTOINCREMENT)
             );''')
+  close_connection('')
 
 pokemons = [
   { "id": 0, "name": 'Salamèche' },
@@ -44,7 +45,8 @@ def findPokemon():
     pokemons = cur.fetchall()
 
     close_connection('')
-    return jsonify(pokemons)
+
+  return convertResponseToJson(pokemons)
 
 @app.route("/<id>", methods = ['GET'])
 def findOnePokemon(id):
@@ -60,7 +62,8 @@ def findOnePokemon(id):
       return 'Not found', 404
 
     close_connection('')
-  return jsonify(pokemon)
+
+  return convertResponseToJson(pokemon)
 
 @app.route("/create", methods = ['POST'])
 def createPokemon():
@@ -74,13 +77,14 @@ def createPokemon():
 
   with app.app_context(): 
     cur = get_db().cursor()
-    cur.execute("INSERT INTO pokemons (name, description) VALUES ('" + data['name'] + "', '" + data['description'] + "')")
+
+    cur.execute('INSERT INTO pokemons (name, description) VALUES ("' + data['name'] + '", "' + data['description'] + '")')
     get_db().commit()
+    pokemon = findOnePokemon(str(cur.lastrowid))
+
     close_connection('')
 
-  data['id'] = len(pokemons)
-  pokemons.append(data)
-  return jsonify(pokemons)
+  return pokemon
 
 @app.route("/<id>", methods = ['PUT'])
 def updatePokemon(id):
@@ -89,13 +93,31 @@ def updatePokemon(id):
 
   data = request.get_json()
 
-  try:
-    index = next((index for (index, d) in enumerate(pokemons) if d["id"] == int(id)), None)
-    pokemons[index]['name'] = data['name']
+  if not "name" in data:
+    return 'Name required', 400
 
-    return pokemons[index]
-  except StopIteration:
-    return 'Not found', 404
+  if not "description" in data:
+    return 'Description required', 400
+
+  with app.app_context():
+    cur = get_db().cursor()
+
+    cur.execute('UPDATE pokemons SET name = "' + data['name'] + '", description = "' + data['description'] + '" WHERE id = ' + id + ';')
+    get_db().commit()
+
+    close_connection('')
+
+  return findOnePokemon(id)
+
+  # try:
+  #   index = next((index for (index, d) in enumerate(pokemons) if d["id"] == int(id)), None)
+  #   pokemons[index]['name'] = data['name']
+
+  #   return pokemons[index]
+  # except StopIteration:
+  #   return 'Not found', 404
+
+
 
 @app.route("/<id>", methods = ['DELETE'])
 def deletePokemon(id):
