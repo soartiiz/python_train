@@ -35,6 +35,7 @@ p {
 .pokemon-name {
   padding-right: 25px;
   width: 150px;
+  text-align: center;
 }
 
 .pokemon-description {
