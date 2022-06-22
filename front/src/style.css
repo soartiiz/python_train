@@ -1,0 +1,44 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+p {
+  margin: 0;
+}
+
+.main-title {
+  text-align: center;
+}
+
+.main-container {
+  width: 100%;
+}
+
+.pokemon-card {
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  padding: 0 25px;
+  border-radius: 5px;
+}
+
+.pokemon-name {
+  padding-right: 25px;
+  width: 150px;
+}
+
+.pokemon-description {
+  padding: 25px 0 25px 25px;
+  border-left: 1px solid black;
+  width: calc(100% - 150px);
+}

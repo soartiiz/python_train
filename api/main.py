@@ -2,9 +2,13 @@ from asyncio.windows_events import NULL
 from flask import Flask, request, jsonify, g
 from helpers import isInt, convertResponseToJson
 import sqlite3
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.run(debug = True)
+
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 DATABASE = 'database.db'
 
