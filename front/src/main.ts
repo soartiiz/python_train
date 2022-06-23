@@ -1,18 +1,26 @@
 import './style.css'
 import { Pokemon } from './pokemon'
 import { PokemonDTO } from './dto/pokemon'
+import { Search } from './search'
+import { View } from './view'
 
-const mainContainer = document.getElementById('main-container')
+new View().render()
 
-const handlePokemons = async (): Promise<PokemonDTO[]> => {
-  const request = await fetch('http://localhost:5000', { method: 'GET' })
-  return request.json()
-}
+// const mainContainer = document.getElementById('main-container')
 
-const pokemons = await handlePokemons()
+// const handlePokemons = async (): Promise<PokemonDTO[]> => {
+//   const request = await fetch('http://localhost:5000', { method: 'GET' })
+//   return request.json()
+// }
 
-pokemons.forEach((p: PokemonDTO) => {
-  const pokemon = new Pokemon(p.name, p.description)
-  mainContainer?.appendChild(pokemon.render())
-});
+// const pokemons = await handlePokemons()
+
+// const search = new Search(true)
+
+// mainContainer?.appendChild(search.render())
+
+// pokemons.forEach((p: PokemonDTO) => {
+//   const pokemon = new Pokemon(p.name, p.description)
+//   mainContainer?.appendChild(pokemon.render())
+// })
 

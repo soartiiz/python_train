@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from flask import Flask, request, jsonify, g
 from helpers import isInt, convertResponseToJson
 import sqlite3
@@ -33,12 +32,6 @@ with app.app_context():
               PRIMARY KEY("id" AUTOINCREMENT)
             );''')
   close_connection('')
-
-pokemons = [
-  { "id": 0, "name": 'Salamèche' },
-  { "id": 1, "name": 'Carapuce' },
-  { "id": 2, "name": 'Bulbizarre' }
-]
 
 @app.route("/", methods = ['GET'])
 def findPokemon():
