@@ -8,5 +8,8 @@ export class Element {
   public render(): HTMLElement {
     return this.element
   }
+
+  public mounted() { }
+  public destroy() { }
 }
 

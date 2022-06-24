@@ -23,6 +23,10 @@ export class List extends Element implements IObserver {
     this.handleFilter(value)
   }
 
+  public refresh() {
+    this.removeAllElement()
+  }
+
   private async fetchPokemons(): Promise<PokemonDTO[]> {
     const request = await fetch('http://localhost:5000', { method: 'GET' })
     return await request.json()

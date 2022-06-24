@@ -106,14 +106,6 @@ def updatePokemon(id):
 
   return findOnePokemon(id)
 
-  # try:
-  #   index = next((index for (index, d) in enumerate(pokemons) if d["id"] == int(id)), None)
-  #   pokemons[index]['name'] = data['name']
-
-  #   return pokemons[index]
-  # except StopIteration:
-  #   return 'Not found', 404
-
 
 
 @app.route("/<id>", methods = ['DELETE'])
