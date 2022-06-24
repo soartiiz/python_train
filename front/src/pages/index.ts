@@ -11,16 +11,18 @@ export class IndexView extends Element {
   constructor() {
     super(document.createElement('div'))
 
+    const h1 = document.createElement('h1')
+    h1.appendChild(document.createTextNode('Pokedex'))
+    this.element.appendChild(h1)
+
     this.list = new List()
     this.search = new Search()
     this.search.subscribe(this.list)
-    const createButton = new Button()
+    const goToCreate = new Button('router-link', 'Crée')
 
-    this.element?.appendChild(createButton.render())
-    this.element?.appendChild(this.search.render())
-    this.element?.appendChild(this.list.render())
+    this.element.append(goToCreate.render(), this.search.render(), this.list.render())
 
-    createButton.render().addEventListener('click', () => {
+    goToCreate.render().addEventListener('click', () => {
       Router.$router.changeView('create')
     })
   }

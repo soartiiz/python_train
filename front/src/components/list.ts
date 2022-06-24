@@ -11,7 +11,6 @@ export class List extends Element implements IObserver {
     super(document.createElement('section'))
 
     this.fetchPokemons().then((pokemons) => {
-
       pokemons.forEach((p: PokemonDTO) => {
         const pokemon = new Pokemon(p.name, p.description)
         this.pokemons.push(pokemon)
@@ -29,6 +28,10 @@ export class List extends Element implements IObserver {
     return await request.json()
   }
 
+  private removeAllElement() {
+    while (this.element.firstChild) { this.element.removeChild(this.element.firstChild); }
+  }
+
   private handleFilter(value: string) {
     const elements = this.pokemons.filter(p => {
       const nameFormatted = p.getName().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
@@ -37,7 +40,7 @@ export class List extends Element implements IObserver {
     })
 
     // REMOVE ALL CHILDS OF ELEMENTS
-    while (this.element.firstChild) { this.element.removeChild(this.element.firstChild); }
+    this.removeAllElement()
     // APPEND NEW CHILDS
     elements.forEach(element => { this.element.appendChild(element.render()) });
   }

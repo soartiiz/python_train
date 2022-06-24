@@ -1,10 +1,10 @@
 import { Element } from "./element"
 
 export class Button extends Element {
-  constructor() {
+  constructor(id: string, label: string) {
     const element = document.createElement('button')
-    element.id = 'router-button'
-    element.appendChild(document.createTextNode('Crée'))
+    element.id = id
+    element.appendChild(document.createTextNode(label))
 
     super(element)
   }
