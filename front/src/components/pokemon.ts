@@ -1,14 +1,17 @@
-export class Pokemon {
+import { Element } from "./element"
+
+export class Pokemon extends Element {
   private name: string
   private description: string
-  private element: HTMLElement
 
   constructor(name: string, description: string) {
+    const element = document.createElement("article")
+    element.classList.add('pokemon-card')
+    super(element)
+
     this.name = name
     this.description = description
-    this.element = document.createElement("section")
-    this.element.classList.add('pokemon-card')
-    
+
     const nameElement = document.createElement("h3")
     nameElement.appendChild(document.createTextNode(this.name))
     nameElement.classList.add('pokemon-name')
@@ -27,8 +30,5 @@ export class Pokemon {
   }
   public getDescription() {
     return this.description
-  }
-  public render() {
-    return this.element
   }
 }

@@ -1,26 +1,32 @@
 import './style.css'
-import { Pokemon } from './pokemon'
-import { PokemonDTO } from './dto/pokemon'
-import { Search } from './search'
-import { View } from './view'
+import { IndexView } from './pages/index'
+import { CreateView } from './pages/create'
 
-new View().render()
+export class Router {
+  static $router: Router
+  private state: string
+  private mainContainer: HTMLElement | null
+  private indexView = new IndexView()
+  private createView = new CreateView()
 
-// const mainContainer = document.getElementById('main-container')
+  constructor() {
+    Router.$router = this
+    this.state = 'index'
+    this.mainContainer = document.getElementById('main-container')
 
-// const handlePokemons = async (): Promise<PokemonDTO[]> => {
-//   const request = await fetch('http://localhost:5000', { method: 'GET' })
-//   return request.json()
-// }
+    this.showViewActive()
+  }
 
-// const pokemons = await handlePokemons()
+  public changeView(state: string): void {
+    this.state = state
+    this.mainContainer?.removeChild(this.mainContainer.firstChild!)
 
-// const search = new Search(true)
+    this.showViewActive()
+  }
 
-// mainContainer?.appendChild(search.render())
+  private showViewActive(): void {
+    this.state === 'index' ? this.mainContainer?.appendChild(this.indexView.render()) : this.mainContainer?.appendChild(this.createView.render())
+  }
+}
 
-// pokemons.forEach((p: PokemonDTO) => {
-//   const pokemon = new Pokemon(p.name, p.description)
-//   mainContainer?.appendChild(pokemon.render())
-// })
-
+new Router()

@@ -1,8 +1,7 @@
-import { IObserver, ISubject } from "./observer"
+import { IObserver, ISubject } from "../observer"
+import { Element } from "./element"
 
-export class Search implements ISubject {
-  private element: HTMLElement
-  // private value: string
+export class Search extends Element implements ISubject {
   private debug: boolean
   private input: HTMLInputElement
   private observers: IObserver[] = [];
@@ -18,17 +17,17 @@ export class Search implements ISubject {
     })
   }
   notify() {
-    console.log('notify')
     this.observers.forEach(observer => {
       observer.update(this.input.value);
     })
   }
 
   constructor(debug: boolean = false) {
+    const element = document.createElement("article")
+    element.classList.add("search")
+    super(element)
+
     this.debug = debug
-    // this.value = 'test'
-    this.element = document.createElement("article")
-    this.element.classList.add("search")
 
     this.input = document.createElement("input")
     this.input.setAttribute("type", "text");
@@ -58,12 +57,4 @@ export class Search implements ISubject {
   public getValue(): string {
     return this.input.value
   }
-  public render(): HTMLElement {
-    return this.element
-  }
-
-  // SETTERS
-  // public setValue(value: string): void {
-  //   this.value = value
-  // }
 }
